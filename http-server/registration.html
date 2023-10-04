@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WD201</title>
+<style>
+*{
+margin: 0;
+padding: 0;
+font-family: 'Mooli', sans-serif;
+}
+button {
+            margin-left: 20px;
+            padding: 10px 10px;
+            background-color:#D988B9;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-bottom: 50px;
+            }
+#praveen1 {
+margin-bottom: 20px;
+padding: 20px;
+border-radius: 10px;
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+background:#D988B9;
+}
+#praveen2{
+margin-bottom: 20px;
+padding: 20px;
+border-radius: 10px;
+width: 70%;
+margin-left: auto;
+margin-right: auto;
+background:#D988B9;
+}
+h2 {
+font-family: 'Poppins', sans-serif;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 5px;
+font-size: 40px;
+text-align: center;
+font-weight: bold;
+color: rgb(255, 255, 255);
+}
+form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+        padding: 15px;
+            text-align: center;
+        }
+
+        th {
+            background: yellowgreen;
+            text-align: center;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #FFB7B7;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        #submit {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #tableData {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <a href="home.html"><button>Home</button></a>
+    <a href="Project.html"> <button>Back to Project</button></a>   
+    <fieldset id="praveen1">
+        <h2>Registration Form</h2>
+        <form onsubmit="return Submit()">
+            <p>
+                <label >Name</label>
+                <input type="text" id="uname" placeholder="Enter the User Name"  required>
+            </p>
+            <p>
+                <label >Email</label>
+                <input type="email" id="uemail" placeholder="Enter the User email"  required>
+            </p>
+            <p>    
+                <label >Password</label>
+                <input type="password" id="upassword" placeholder="Enter the User Password"  required>
+            </p>
+            <p>
+                <label >Date of Birth</label>
+                <input type="date" id="udob">
+            </p>
+            <p id="iagree">
+                <input type="checkbox" id="agree-to-terms" required>
+                <label>Accept Terms & Conditions</label>
+            </p>
+            <input type="submit" id="submit" value="Submit"/>
+        </form>
+    </fieldset>
+
+    <fieldset id="praveen2">
+        <h2>Entries</h2>
+        <table id="tableData">
+            <thead>
+                <th>user Name</th>
+                <th>user Email id</th>
+                <th>user Password</th>
+                <th>Date of Birth</th>
+                <th>Accepted terms?</th>
+            </thead>
+           <tbody></tbody>
+        </table>
+    </fieldset>
+    <script>
+             
+        // Declare the variables
+        const currentDate = new Date();
+        const minDate = new Date();
+        const maxDate = new Date();
+     
+        // Set minium and Maximum Data 
+        minDate.setFullYear(currentDate.getFullYear() - 55);
+        maxDate.setFullYear(currentDate.getFullYear() - 18);
+        document.getElementById("dob").setAttribute("min", minDate.toISOString().split('T')[0]);
+        document.getElementById("dob").setAttribute("max", maxDate.toISOString().split('T')[0]);
+
+        if (localStorage.getItem("Names") == null) {
+            localStorage.setItem("Names", "[]");
+        }
+        if (localStorage.getItem("Emails") == null) {
+            localStorage.setItem("Emails", "[]");
+        }
+        if (localStorage.getItem("Passwords") == null) {
+            localStorage.setItem("Passwords", "[]");
+        }
+        if (localStorage.getItem("DOBs") == null) {
+            localStorage.setItem("DOBs", "[]");
+        }
+
+            function displaydata() {
+            const names = JSON.parse(localStorage.getItem("Names"));
+            const emails = JSON.parse(localStorage.getItem("Emails"));
+            const passwords = JSON.parse(localStorage.getItem("Passwords"));
+            const dobs = JSON.parse(localStorage.getItem("DOBs"));
+            const tableBody = document.querySelector("#tableData tbody");
+            // Clear existing table rows
+            tableBody.innerHTML = "";
+
+            for (let i = 0; i < names.length; i++) {
+                const row = document.createElement("tr");
+                const Cellname = document.createElement("td");
+                const Cellemailid = document.createElement("td");
+                const Cellpassed = document.createElement("td");
+                const CellBOD = document.createElement("td");
+                const CellAggreed = document.createElement("td");
+
+                Cellname.textContent = names[i];
+                Cellemailid.textContent = emails[i];
+                Cellpassed.textContent = passwords[i];
+                CellBOD.textContent = dobs[i];
+                CellAggreed.textContent = "true";
+
+                row.appendChild(Cellname);
+                row.appendChild(Cellemailid);
+                row.appendChild(Cellpassed);
+                row.appendChild(CellBOD);
+                row.appendChild(CellAggreed);
+
+                tableBody.appendChild(row);
+            }
+
+    }
+
+    displaydata();
+    function Submit() {
+    const name = document.getElementById("uname").value;
+    const email = document.getElementById("uemail").value;
+    const password = document.getElementById("upassword").value;
+    const dob = document.getElementById("udob").value;
+    var old_n = JSON.parse(localStorage.getItem("Names"));
+    old_n.push(name);
+    localStorage.setItem("Names", JSON.stringify(old_n));
+    var old_e = JSON.parse(localStorage.getItem("Emails"));
+    old_e.push(email);
+    localStorage.setItem("Emails", JSON.stringify(old_e));
+    var old_p = JSON.parse(localStorage.getItem("Passwords"));
+    old_p.push(password);
+    localStorage.setItem("Passwords", JSON.stringify(old_p));
+    var old_d = JSON.parse(localStorage.getItem("DOBs"));
+    old_d.push(dob);
+    localStorage.setItem("DOBs", JSON.stringify(old_d));
+    displaydata();
+    return false;
+}
+
+    </script>
+</body>
+</html>
