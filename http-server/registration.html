@@ -1,28 +1,107 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Registration Form</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wd201 - Registration Form</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+}
+#wd201-01 {
+margin-bottom: 50px;
+padding: 20px;
+width: 50%;
+margin-left: auto;
+margin-right: auto;
+background: #FFBFBF;
+}
+#wd201-02{
+margin-bottom: 20px;
+padding: 20px;
+background: #FFBFBF;
+width: 70%;
+margin-left: auto;
+margin-right: auto;
+}
+h2 {
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 5px;
+font-size: 40px;
+text-align: center;
+font-weight: bold;
+color: #0E2954;
+}
+form {
+max-width: 400px;
+margin: 0 auto;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+}
+td {
+border: 1px solid #ccc;
+}
+th, td {
+padding: 20px;
+text-align: center;
+}
+th {
+background: black;
+text-align: center;
+color: #fff;
+}
+label {
+display: inline-block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+input[type="text"], input[type="email"], input[type="password"], input[type="date"] {
+width: 100%;
+padding: 10px;
+margin-bottom: 15px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+input[type="checkbox"] {
+margin-right: 5px;
+}
+#wd201-submit {
+padding: 10px 20px;
+background-color: #007bff;
+color: #fff;
+font-size: 18px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+#tableData {
+margin-top: 20px;
+}
+</style>
 </head>
-
 <body>
-    <div>
-        <a href="/project">Projects</a>
-        <a href="/home">Back to home</a>
-    </div>
+  <div>
+    
+    <a href="/project">Projects</a>
+    <a href="/home">Back to home</a>
 
-    <fieldset id="wd201-01">
-        <h2>Registration Form</h2>
-        <form id="registrationForm">
-            <p>
-                <label for="name">Name</label>
-                <input type="text" id="uname" placeholder="Enter full Name" name="Name" required>
+  </div>
+<fieldset id="wd201-01">
+<h2>Registration Form</h2>
+<form onsubmit="return Submit()">
+<p>
+<label for="name">Name</label>
+<input type="text" id="name" placeholder="Enter full Name" name="Name" required>
             </p>
             <p>
                 <label for="email">Email</label>
                 <input type="email" id="email" placeholder="Enter email" name="Email" required>
             </p>
-            <p>
+            <p>    
                 <label for="password">Password</label>
                 <input type="password" id="password" placeholder="Enter password" name="Password" required>
             </p>
@@ -34,7 +113,7 @@
                 <input type="checkbox" id="agree-to-terms" required>
                 <label for="agree-to-terms">Accept Terms & Conditions</label>
             </p>
-            <input type="submit" id="wd201-submit" value="Submit" />
+            <input type="submit" id="wd201-submit" value="Submit"/>
         </form>
     </fieldset>
 
@@ -48,106 +127,62 @@
                 <th>Dob</th>
                 <th>Accepted terms?</th>
             </thead>
+
             <tbody>
             </tbody>
         </table>
     </fieldset>
 
+
+    <!-- <script src="registration.js"></script> -->
     <script>
         const currentDate = new Date();
         const minDate = new Date();
         const maxDate = new Date();
 
         minDate.setFullYear(currentDate.getFullYear() - 55);
+        // minDate.setDate(minDate.getDate() + 1);
         maxDate.setFullYear(currentDate.getFullYear() - 18);
+        // maxDate.setDate(maxDate.getDate() + 1);  
 
         document.getElementById("dob").setAttribute("min", minDate.toISOString().split('T')[0]);
         document.getElementById("dob").setAttribute("max", maxDate.toISOString().split('T')[0]);
 
-        const registrationForm = document.getElementById("registrationForm");
+        if (localStorage.getItem("Names") == null) {
+            localStorage.setItem("Names", "[]");
+        }
+        if (localStorage.getItem("Emails") == null) {
+            localStorage.setItem("Emails", "[]");
+        }
+        if (localStorage.getItem("Passwords") == null) {
+            localStorage.setItem("Passwords", "[]");
+        }
+        if (localStorage.getItem("DOBs") == null) {
+            localStorage.setItem("DOBs", "[]");
+        }
 
-        registrationForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const name = document.getElementById("uname").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const dob = document.getElementById("dob").value;
-
-            const tableBody = document.querySelector("#tableData tbody");
-            const row = document.createElement("tr");
-
-            const nameCell = document.createElement("td");
-            nameCell.textContent = name;
-
-            const emailCell = document.createElement("td");
-            emailCell.textContent = email;
-
-            const passCell = document.createElement("td");
-            passCell.textContent = password;
-
-            const dobCell = document.createElement("td");
-            dobCell.textContent = dob;
-
-            const agreedCell = document.createElement("td");
-            agreedCell.textContent = "true";
-
-            row.appendChild(nameCell);
-            row.appendChild(emailCell);
-            row.appendChild(passCell);
-            row.appendChild(dobCell);
-            row.appendChild(agreedCell);
-
-            tableBody.appendChild(row);
-
-            // Clear input fields
-            document.getElementById("uname").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("dob").value = "";
-
-            // Store data in local storage
-            const names = JSON.parse(localStorage.getItem("Names")) || [];
-            const emails = JSON.parse(localStorage.getItem("Emails")) || [];
-            const passwords = JSON.parse(localStorage.getItem("Passwords")) || [];
-            const dobs = JSON.parse(localStorage.getItem("DOBs")) || [];
-
-            names.push(name);
-            emails.push(email);
-            passwords.push(password);
-            dobs.push(dob);
-
-            localStorage.setItem("Names", JSON.stringify(names));
-            localStorage.setItem("Emails", JSON.stringify(emails));
-            localStorage.setItem("Passwords", JSON.stringify(passwords));
-            localStorage.setItem("DOBs", JSON.stringify(dobs));
-        });
-
-        // Load and display data from local storage
         function displayData() {
-            const names = JSON.parse(localStorage.getItem("Names")) || [];
-            const emails = JSON.parse(localStorage.getItem("Emails")) || [];
-            const passwords = JSON.parse(localStorage.getItem("Passwords")) || [];
-            const dobs = JSON.parse(localStorage.getItem("DOBs")) || [];
+            const names = JSON.parse(localStorage.getItem("Names"));
+            const emails = JSON.parse(localStorage.getItem("Emails"));
+            const passwords = JSON.parse(localStorage.getItem("Passwords"));
+            const dobs = JSON.parse(localStorage.getItem("DOBs"));
 
             const tableBody = document.querySelector("#tableData tbody");
+            // Clear existing table rows
+            tableBody.innerHTML = "";
 
             for (let i = 0; i < names.length; i++) {
                 const row = document.createElement("tr");
-
                 const nameCell = document.createElement("td");
-                nameCell.textContent = names[i];
-
                 const emailCell = document.createElement("td");
-                emailCell.textContent = emails[i];
-
                 const passCell = document.createElement("td");
-                passCell.textContent = passwords[i];
-
                 const dobCell = document.createElement("td");
-                dobCell.textContent = dobs[i];
-
                 const agreedCell = document.createElement("td");
+
+                nameCell.textContent = names[i];
+                emailCell.textContent = emails[i];
+                passCell.textContent = passwords[i];
+                dobCell.textContent = dobs[i];
                 agreedCell.textContent = "true";
 
                 row.appendChild(nameCell);
@@ -158,10 +193,44 @@
 
                 tableBody.appendChild(row);
             }
+
         }
 
         displayData();
+
+        function Submit() {
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const dob = document.getElementById("dob").value;
+
+            var old_n = JSON.parse(localStorage.getItem("Names"));
+            old_n.push(name);
+            localStorage.setItem("Names", JSON.stringify(old_n));
+            
+            var old_e = JSON.parse(localStorage.getItem("Emails"));
+            old_e.push(email);
+            localStorage.setItem("Emails", JSON.stringify(old_e));
+            
+            var old_p = JSON.parse(localStorage.getItem("Passwords"));
+            old_p.push(password);
+            localStorage.setItem("Passwords", JSON.stringify(old_p));
+            
+            var old_d = JSON.parse(localStorage.getItem("DOBs"));
+            old_d.push(dob);
+            localStorage.setItem("DOBs", JSON.stringify(old_d));
+
+
+            // Clear input fields
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("dob").value = "";
+
+            displayData();
+            return false;
+        }
     </script>
 </body>
-
 </html>
